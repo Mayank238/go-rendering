@@ -13,7 +13,7 @@ import (
 
 type Head struct {
     Title  string
-    
+
 }
 
 type form struct{
@@ -21,7 +21,7 @@ type form struct{
  }
 
  // type display struct {
-     
+
  // }
 
  type Card struct {
@@ -36,17 +36,17 @@ func main() {
     http.HandleFunc("/form", Form)
     http.HandleFunc("/display", Display)
     http.HandleFunc("/list", list)
-    http.ListenAndServe(":8080", nil)
+    http.ListenAndServe(":" + os.Getenv("PORT"), nil)
 
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
-    
+
     title := Head{"Welcome"}
 
     fp := path.Join("templet", "index.html")
     tmpl, err := template.ParseFiles(fp)
-    
+
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
@@ -74,7 +74,7 @@ func Display(w http.ResponseWriter, r *http.Request) {
     var Dataobj []Card
     err = json.Unmarshal(data,&Dataobj)
     if err != nil {
-       fmt.Println(err) 
+       fmt.Println(err)
     }
 
     //fmt.Println(Dataobj)
@@ -86,11 +86,11 @@ func Display(w http.ResponseWriter, r *http.Request) {
         Password: r.FormValue("pwd"),
 
     }
-    
+
 
     Dataobj = append(Dataobj, d)
     //fmt.Println(d)
-    
+
     // card := new(Card)
     // card.Name = r.FormValue("name")
     // card.Email = r.FormValue("email")
@@ -112,7 +112,7 @@ func Display(w http.ResponseWriter, r *http.Request) {
     //     return
     // }
 
-    
+
 
 
     // b, err := json.Marshal(card)
@@ -123,12 +123,12 @@ func Display(w http.ResponseWriter, r *http.Request) {
 
     // f.Write(b)
     // f.Close()
-    
+
 }
 
 func list(w http.ResponseWriter,r *http.Request) {
 
-     
+
 
       f, err := os.OpenFile("deck.json", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
         if err != nil {
